@@ -5,15 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StudentDAO_Controller {
-    private static final String URL = "jdbc:mysql://bytexldb.com:5051/db_43zqcp639";
-    private static final String USER = "user_43zqcp639";
-    private static final String PASS = "p43zqcp639";
+    private static final String URL = "jdbc:mysql://bytexldb.com:5051/db_43zx2tadw";
+    private static final String USER = "user_43zx2tadw";
+    private static final String PASS = "p43zx2tadw";
 
     static {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
-            System.out.println("MySQL JDBC Driver not found");
+            System.out.println("❌ MySQL JDBC Driver not found");
         }
     }
 
@@ -30,7 +30,7 @@ public class StudentDAO_Controller {
             ps.setDouble(4, s.getMarks());
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println("❌ " + e.getMessage());
             return false;
         }
     }
@@ -47,7 +47,7 @@ public class StudentDAO_Controller {
                         rs.getDouble("Marks")));
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println("❌ " + e.getMessage());
         }
         return list;
     }
@@ -61,7 +61,7 @@ public class StudentDAO_Controller {
             ps.setInt(4, s.getStudentID());
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println("❌ " + e.getMessage());
             return false;
         }
     }
@@ -72,7 +72,7 @@ public class StudentDAO_Controller {
             ps.setInt(1, id);
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println("❌ " + e.getMessage());
             return false;
         }
     }
