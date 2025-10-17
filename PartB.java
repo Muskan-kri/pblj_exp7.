@@ -2,9 +2,9 @@ import java.sql.*;
 import java.util.Scanner;
 
 public class PartB {
-    static String url = "jdbc:mysql://bytexldb.com:5051/db_43zqcp639";
-    static String username = "user_43zqcp639";
-    static String password = "p43zqcp639";
+    static String url = "jdbc:mysql://bytexldb.com:5051/db_43zx2tadw";
+    static String username = "user_43zx2tadw";
+    static String password = "p43zx2tadw";
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -13,11 +13,11 @@ public class PartB {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection(url, username, password);
-            System.out.println("Connected to database successfully");
+            System.out.println("✅ Connected to database successfully");
 
             int choice;
             do {
-                System.out.println("\nPRODUCT MANAGEMENT");
+                System.out.println("\n=== PRODUCT MANAGEMENT ===");
                 System.out.println("1. Insert Product");
                 System.out.println("2. Display All Products");
                 System.out.println("3. Update Product");
@@ -32,18 +32,14 @@ public class PartB {
                     case 3 -> updateProduct(conn, sc);
                     case 4 -> deleteProduct(conn, sc);
                     case 5 -> System.out.println("Exiting...");
-                    default -> System.out.println("Invalid choice");
+                    default -> System.out.println("Invalid choice!");
                 }
             } while (choice != 5);
 
         } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+            System.out.println("❌ Error: " + e.getMessage());
         } finally {
-            try {
-                if (conn != null) conn.close();
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-            }
+            try { if (conn != null) conn.close(); } catch (SQLException ignored) {}
             sc.close();
         }
     }
@@ -61,19 +57,17 @@ public class PartB {
             int qty = sc.nextInt();
 
             String sql = "INSERT INTO Product (ProductID, ProductName, Price, Quantity) VALUES (?, ?, ?, ?)";
-            PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1, id);
-            pstmt.setString(2, name);
-            pstmt.setDouble(3, price);
-            pstmt.setInt(4, qty);
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, id);
+            ps.setString(2, name);
+            ps.setDouble(3, price);
+            ps.setInt(4, qty);
 
-            int rows = pstmt.executeUpdate();
-            if (rows > 0)
-                System.out.println("Product inserted successfully");
-
-            pstmt.close();
+            int rows = ps.executeUpdate();
+            if (rows > 0) System.out.println("✅ Product inserted successfully!");
+            ps.close();
         } catch (SQLException e) {
-            System.out.println("Error inserting: " + e.getMessage());
+            System.out.println("❌ Error inserting: " + e.getMessage());
         }
     }
 
@@ -91,10 +85,9 @@ public class PartB {
                         rs.getDouble("Price"),
                         rs.getInt("Quantity"));
             }
-            rs.close();
-            stmt.close();
+            rs.close(); stmt.close();
         } catch (SQLException e) {
-            System.out.println("Error displaying: " + e.getMessage());
+            System.out.println("❌ Error displaying: " + e.getMessage());
         }
     }
 
@@ -108,25 +101,25 @@ public class PartB {
             System.out.print("Enter new Quantity: ");
             int newQty = sc.nextInt();
 
-            String sql = "UPDATE Product SET Price = ?, Quantity = ? WHERE ProductID = ?";
-            PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setDouble(1, newPrice);
-            pstmt.setInt(2, newQty);
-            pstmt.setInt(3, id);
+            String sql = "UPDATE Product SET Price=?, Quantity=? WHERE ProductID=?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setDouble(1, newPrice);
+            ps.setInt(2, newQty);
+            ps.setInt(3, id);
 
-            int rows = pstmt.executeUpdate();
+            int rows = ps.executeUpdate();
             if (rows > 0) {
                 conn.commit();
-                System.out.println("Product updated successfully");
+                System.out.println("✅ Product updated successfully!");
             } else {
                 conn.rollback();
-                System.out.println("Product not found");
+                System.out.println("⚠️ Product not found!");
             }
-            pstmt.close();
+            ps.close();
         } catch (SQLException e) {
-            try { conn.rollback(); } catch (SQLException ex) { System.out.println(ex.getMessage()); }
+            try { conn.rollback(); } catch (SQLException ignored) {}
         } finally {
-            try { conn.setAutoCommit(true); } catch (SQLException e) { System.out.println(e.getMessage()); }
+            try { conn.setAutoCommit(true); } catch (SQLException ignored) {}
         }
     }
 
@@ -136,23 +129,23 @@ public class PartB {
             System.out.print("Enter Product ID to delete: ");
             int id = sc.nextInt();
 
-            String sql = "DELETE FROM Product WHERE ProductID = ?";
-            PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1, id);
+            String sql = "DELETE FROM Product WHERE ProductID=?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, id);
 
-            int rows = pstmt.executeUpdate();
+            int rows = ps.executeUpdate();
             if (rows > 0) {
                 conn.commit();
-                System.out.println("Product deleted successfully");
+                System.out.println("✅ Product deleted successfully!");
             } else {
                 conn.rollback();
-                System.out.println("Product not found");
+                System.out.println("⚠️ Product not found!");
             }
-            pstmt.close();
+            ps.close();
         } catch (SQLException e) {
-            try { conn.rollback(); } catch (SQLException ex) { System.out.println(ex.getMessage()); }
+            try { conn.rollback(); } catch (SQLException ignored) {}
         } finally {
-            try { conn.setAutoCommit(true); } catch (SQLException e) { System.out.println(e.getMessage()); }
+            try { conn.setAutoCommit(true); } catch (SQLException ignored) {}
         }
     }
 }
