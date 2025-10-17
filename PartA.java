@@ -2,32 +2,31 @@ import java.sql.*;
 
 public class PartA {
     public static void main(String[] args) {
-        String url = "jdbc:mysql://bytexldb.com:5051/db_43zqcp639";
-        String username = "user_43zqcp639";
-        String password = "p43zqcp639";
+        String url = "jdbc:mysql://bytexldb.com:5051/db_43zx2tadw";
+        String username = "user_43zx2tadw";
+        String password = "p43zx2tadw";
         Connection conn = null;
         Statement stmt = null;
         ResultSet rs = null;
 
         try {
-            // 1️ Load the JDBC driver
+            // Load JDBC Driver
             Class.forName("com.mysql.cj.jdbc.Driver");
 
-            // 2️ Establish connection
+            // Connect to Database
             conn = DriverManager.getConnection(url, username, password);
-            System.out.println("Database connected successfully!");
+            System.out.println("✅ Connected to Database Successfully!");
 
-            // 3️ Create a Statement
             stmt = conn.createStatement();
 
-            // 4️ INSERT query (add a new employee record)
+            // Insert Employee Record
             String insertQuery = "INSERT INTO Employee (Name, Salary) VALUES ('Riya Sharma', 45000.00)";
             int rowsInserted = stmt.executeUpdate(insertQuery);
             if (rowsInserted > 0) {
-                System.out.println("New employee inserted successfully!");
+                System.out.println("👩‍💼 New employee inserted successfully!");
             }
 
-            // 5️ SELECT query to display all employee data
+            // Fetch All Employees
             String selectQuery = "SELECT EmpID, Name, Salary FROM Employee";
             rs = stmt.executeQuery(selectQuery);
 
@@ -40,18 +39,10 @@ public class PartA {
                 System.out.println("EmpID: " + empId + " | Name: " + name + " | Salary: " + salary);
             }
 
-        } catch (ClassNotFoundException e) {
-            System.out.println("JDBC Driver not found: " + e.getMessage());
-        } catch (SQLException e) {
-            System.out.println("Database error: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("❌ Error: " + e.getMessage());
         } finally {
-            try {
-                if (rs != null) rs.close();
-                if (stmt != null) stmt.close();
-                if (conn != null) conn.close();
-            } catch (SQLException e) {
-                System.out.println("Error closing resources: " + e.getMessage());
-            }
+            try { if (rs != null) rs.close(); if (stmt != null) stmt.close(); if (conn != null) conn.close(); } catch (SQLException ignored) {}
         }
     }
 }
