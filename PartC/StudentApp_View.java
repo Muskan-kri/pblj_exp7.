@@ -8,7 +8,7 @@ public class StudentApp_View {
         StudentDAO_Controller dao = new StudentDAO_Controller();
 
         while (true) {
-            System.out.println("\nSTUDENT MANAGEMENT");
+            System.out.println("\n=== STUDENT MANAGEMENT ===");
             System.out.println("1. Add Student");
             System.out.println("2. View All Students");
             System.out.println("3. Update Student");
@@ -30,8 +30,8 @@ public class StudentApp_View {
                     double marks = sc.nextDouble();
 
                     Student_Model s = new Student_Model(id, name, dept, marks);
-                    if (dao.addStudent(s)) System.out.println("Student added");
-                    else System.out.println("Failed to add");
+                    if (dao.addStudent(s)) System.out.println("✅ Student added successfully!");
+                    else System.out.println("❌ Failed to add student.");
                 }
                 case 2 -> {
                     List<Student_Model> list = dao.getAllStudents();
@@ -52,21 +52,21 @@ public class StudentApp_View {
                     double marks = sc.nextDouble();
 
                     Student_Model s = new Student_Model(id, name, dept, marks);
-                    if (dao.updateStudent(s)) System.out.println("Student updated");
-                    else System.out.println("Update failed");
+                    if (dao.updateStudent(s)) System.out.println("✅ Student updated!");
+                    else System.out.println("❌ Update failed.");
                 }
                 case 4 -> {
                     System.out.print("Enter ID to delete: ");
                     int id = sc.nextInt();
-                    if (dao.deleteStudent(id)) System.out.println("Student deleted");
-                    else System.out.println("Delete failed");
+                    if (dao.deleteStudent(id)) System.out.println("✅ Student deleted!");
+                    else System.out.println("❌ Delete failed.");
                 }
                 case 5 -> {
-                    System.out.println("Exiting...");
+                    System.out.println("👋 Exiting...");
                     sc.close();
                     return;
                 }
-                default -> System.out.println("Invalid choice");
+                default -> System.out.println("Invalid choice!");
             }
         }
     }
